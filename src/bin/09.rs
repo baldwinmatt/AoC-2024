@@ -1,5 +1,3 @@
-use advent_of_code::parse;
-
 advent_of_code::solution!(9);
 
 enum Entry {
@@ -8,8 +6,6 @@ enum Entry {
 }
 
 fn parse_input(input: &str) -> Vec<Entry> {
-    let mut id = 0;
-
     input
         .char_indices()
         .map(|(i, c)| {
@@ -91,8 +87,40 @@ pub fn part_one(input: &str) -> Option<usize> {
     Some(checksum(&clean))
 }
 
-pub fn part_two(input: &str) -> Option<u32> {
-    None
+pub fn part_two(input: &str) -> Option<usize> {
+    let mut disk = parse_input(input);
+
+    let mut read_cursor = disk.len() - 1;
+    while read_cursor > 0 {
+        if let Entry::File{ id, size: filesize} = disk[read_cursor] {
+            let mut write_cursor = 0;
+
+            loop {
+                if let Entry::Free{size} = disk[write_cursor] {
+                    if size > filesize {
+                        // move the file
+                        disk[read_cursor] = Entry::Free{size: filesize};
+                        disk[write_cursor] = Entry::File { id, size: filesize };
+                        // After the file, there is some free space
+                        disk.insert(read_cursor + 1, Entry::Free { size: size - filesize });
+                        break;
+                    } else if size == filesize {
+                        // move the file
+                        disk[read_cursor] = Entry::Free{size};
+                        disk[write_cursor] = Entry::File { id, size };
+                    }
+                }
+
+                if write_cursor == read_cursor {
+                    break;
+                }
+                write_cursor += 1;
+            }
+        }
+        read_cursor -= 1;
+    }
+
+    Some(checksum(&disk))
 }
 
 #[cfg(test)]
@@ -108,6 +136,6 @@ mod tests {
     #[test]
     fn test_part_two() {
         let result = part_two(&advent_of_code::template::read_file("examples", DAY));
-        assert_eq!(result, None);
+        assert_eq!(result, Some(2858));
     }
 }
