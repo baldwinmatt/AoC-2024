@@ -2,7 +2,13 @@ advent_of_code::solution!(2);
 
 fn solve(row: &Vec<i32>, recurse: bool) -> bool {
     let mut safe = true;
-    let inc = if row[0] > row[1] { 1 } else if row[0] < row[1] { -1 } else { 0 };
+    let inc = if row[0] > row[1] {
+        1
+    } else if row[0] < row[1] {
+        -1
+    } else {
+        0
+    };
     for i in 1..(row.len()) {
         let diff = (row[i - 1] - row[i]) * inc;
         safe = diff >= 1 && diff <= 3;
@@ -36,7 +42,10 @@ pub fn part_one(input: &str) -> Option<u32> {
     let mut safe_count = 0;
 
     for line in input.lines() {
-        let row = line.split_whitespace().map(|s| s.parse::<i32>().unwrap()).collect::<Vec<i32>>();
+        let row = line
+            .split_whitespace()
+            .map(|s| s.parse::<i32>().unwrap())
+            .collect::<Vec<i32>>();
         if solve(&row, false) {
             safe_count += 1;
         }
@@ -48,12 +57,16 @@ pub fn part_two(input: &str) -> Option<u32> {
     let mut safe_count = 0;
 
     for line in input.lines() {
-        let row = line.split_whitespace().map(|s| s.parse::<i32>().unwrap()).collect::<Vec<i32>>();
+        let row = line
+            .split_whitespace()
+            .map(|s| s.parse::<i32>().unwrap())
+            .collect::<Vec<i32>>();
         if solve(&row, true) {
             safe_count += 1;
         }
     }
-    Some(safe_count)}
+    Some(safe_count)
+}
 
 #[cfg(test)]
 mod tests {

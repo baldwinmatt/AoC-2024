@@ -66,7 +66,7 @@ fn solve(cm: &ClawMachine, offset: i64) -> Option<u64> {
     let left = a * y - c * x;
     let right = a * d - b * c;
     if left % right == 0 {
-        let tb= left / right;
+        let tb = left / right;
 
         let left = x - b * tb;
         let right = a;
@@ -114,6 +114,6 @@ mod tests {
     #[test]
     fn test_part_two() {
         let result = part_two(&advent_of_code::template::read_file("examples", DAY));
-        assert_eq!(result, None);
+        assert_eq!(result, Some(875318608908));
     }
 }

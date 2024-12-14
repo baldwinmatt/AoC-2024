@@ -1,10 +1,9 @@
 use std::collections::HashSet;
 
 use advent_of_code::point::Point;
-use advent_of_code::pointmap::{PointMap, Direction};
+use advent_of_code::pointmap::{Direction, PointMap};
 
 advent_of_code::solution!(6);
-
 
 #[derive(PartialEq, Eq)]
 enum Square {
@@ -13,7 +12,6 @@ enum Square {
 }
 
 fn parse(input: &str) -> (PointMap<Square>, Point) {
-
     let mut vec = Vec::new();
 
     let mut height = 0;
@@ -76,7 +74,8 @@ pub fn part_two(input: &str) -> Option<u32> {
             dir = dir.rotate_clockwise();
             continue;
         } else if visited[next].iter().all(|seen| !seen) {
-            let mut visited_dup = PointMap::from_vec(vec![[false; 4]; map.width * map.height], map.height);
+            let mut visited_dup =
+                PointMap::from_vec(vec![[false; 4]; map.width * map.height], map.height);
             let mut dir_dup = dir.rotate_clockwise();
             let mut pos_dup = pos;
 
@@ -85,7 +84,8 @@ pub fn part_two(input: &str) -> Option<u32> {
                     dir_dup = dir_dup.rotate_clockwise();
                     continue;
                 } else if visited_dup[next_dup][dir_dup as usize]
-                    || visited[next_dup][dir_dup as usize] {
+                    || visited[next_dup][dir_dup as usize]
+                {
                     loops.insert(next);
                     break;
                 }

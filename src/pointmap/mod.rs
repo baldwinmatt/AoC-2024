@@ -1,4 +1,4 @@
-use std::ops::{IndexMut, Index};
+use std::ops::{Index, IndexMut};
 
 use crate::point::Point;
 
@@ -53,14 +53,9 @@ impl From<Direction> for usize {
 }
 
 impl<T> PointMap<T> {
-    pub fn from_vec(vec: Vec<T>, height: usize) -> Self
-    {
+    pub fn from_vec(vec: Vec<T>, height: usize) -> Self {
         let width = vec.len() / height;
-        Self {
-            vec,
-            width,
-            height,
-        }
+        Self { vec, width, height }
     }
 
     pub fn new(vec: Vec<T>, width: usize, height: usize) -> Self {

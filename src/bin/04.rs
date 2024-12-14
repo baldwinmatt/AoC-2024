@@ -3,9 +3,7 @@ advent_of_code::solution!(4);
 fn parse_into_vec(input: &str) -> Vec<Vec<u8>> {
     input
         .lines()
-        .map(|line| {
-            line.as_bytes().to_vec()
-        })
+        .map(|line| line.as_bytes().to_vec())
         .collect::<Vec<Vec<u8>>>()
 }
 
@@ -24,57 +22,69 @@ pub fn part_one(input: &str) -> Option<u32> {
             // look for XMAS in each of the 8 directions
             if x >= 3 {
                 let m = r[x - 1] == b'M' && r[x - 2] == b'A' && r[x - 3] == b'S';
-                if m { count += 1; }
+                if m {
+                    count += 1;
+                }
                 // back diagonal-up
                 if y >= 3 {
-                    let m = map[y - 1][x - 1] == b'M' &&
-                        map[y - 2][x - 2] == b'A' &&
-                        map[y - 3][x - 3] == b'S';
+                    let m = map[y - 1][x - 1] == b'M'
+                        && map[y - 2][x - 2] == b'A'
+                        && map[y - 3][x - 3] == b'S';
 
-                    if m { count += 1; }
+                    if m {
+                        count += 1;
+                    }
                 }
                 // back diagonal-down
                 if y < map.len() - 3 {
-                    let m = map[y + 1][x - 1] == b'M' &&
-                        map[y + 2][x - 2] == b'A' &&
-                        map[y + 3][x - 3] == b'S';
+                    let m = map[y + 1][x - 1] == b'M'
+                        && map[y + 2][x - 2] == b'A'
+                        && map[y + 3][x - 3] == b'S';
 
-                    if m { count += 1; }
+                    if m {
+                        count += 1;
+                    }
                 }
             }
             if x < r.len() - 3 {
                 let m = r[x + 1] == b'M' && r[x + 2] == b'A' && r[x + 3] == b'S';
-                if m { count += 1; }
+                if m {
+                    count += 1;
+                }
                 // forward diagonal-down
                 if y < map.len() - 3 {
-                    let m = map[y + 1][x + 1] == b'M' &&
-                        map[y + 2][x + 2] == b'A' &&
-                        map[y + 3][x + 3] == b'S';
+                    let m = map[y + 1][x + 1] == b'M'
+                        && map[y + 2][x + 2] == b'A'
+                        && map[y + 3][x + 3] == b'S';
 
-                    if m { count += 1; }
+                    if m {
+                        count += 1;
+                    }
                 }
                 // forward diagonal-up
                 if y >= 3 {
-                    let m = map[y - 1][x + 1] == b'M' &&
-                        map[y - 2][x + 2] == b'A' &&
-                        map[y - 3][x + 3] == b'S';
+                    let m = map[y - 1][x + 1] == b'M'
+                        && map[y - 2][x + 2] == b'A'
+                        && map[y - 3][x + 3] == b'S';
 
-                    if m { count += 1; }
+                    if m {
+                        count += 1;
+                    }
                 }
             }
             if y >= 3 {
-                let m = map[y - 1][x] == b'M' &&
-                    map[y - 2][x] == b'A' &&
-                    map[y - 3][x] == b'S';
+                let m = map[y - 1][x] == b'M' && map[y - 2][x] == b'A' && map[y - 3][x] == b'S';
 
-                if m { count += 1; }
+                if m {
+                    count += 1;
+                }
             }
             if y < map.len() - 3 {
-                let m = map[y + 1][x] == b'M' &&
-                    map[y + 2][x] == b'A' &&
-                    map[y + 3][x] == b'S';
+                let m = map[y + 1][x] == b'M' && map[y + 2][x] == b'A' && map[y + 3][x] == b'S';
 
-                if m { count += 1; }
+                if m {
+                    count += 1;
+                }
             }
         }
     }
@@ -99,10 +109,11 @@ pub fn part_two(input: &str) -> Option<u32> {
             if c != b'A' {
                 continue;
             }
-            if ((map[y - 1][x - 1] == b'M' && map[y + 1][x + 1] == b'S') ||
-                (map[y - 1][x - 1] == b'S' && map[y + 1][x + 1] == b'M')) &&
-                ((map[y + 1][x - 1] == b'M' && map[y - 1][x + 1] == b'S') ||
-                (map[y + 1][x - 1] == b'S' && map[y - 1][x + 1] == b'M')) {
+            if ((map[y - 1][x - 1] == b'M' && map[y + 1][x + 1] == b'S')
+                || (map[y - 1][x - 1] == b'S' && map[y + 1][x + 1] == b'M'))
+                && ((map[y + 1][x - 1] == b'M' && map[y - 1][x + 1] == b'S')
+                    || (map[y + 1][x - 1] == b'S' && map[y - 1][x + 1] == b'M'))
+            {
                 count += 1;
             }
         }

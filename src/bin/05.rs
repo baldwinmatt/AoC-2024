@@ -1,4 +1,3 @@
-
 use advent_of_code::parse::Parsable;
 use std::iter::from_fn;
 
@@ -55,7 +54,10 @@ fn correct(job: &mut Vec<u32>, rules: &Vec<Vec<u32>>) -> u32 {
 pub fn part_one(input: &str) -> Option<u32> {
     let (rules, jobs) = parse(input);
 
-    jobs.iter().filter_map(|job| check(job, &rules)).sum::<u32>().into()
+    jobs.iter()
+        .filter_map(|job| check(job, &rules))
+        .sum::<u32>()
+        .into()
 }
 
 pub fn part_two(input: &str) -> Option<u32> {
@@ -64,7 +66,8 @@ pub fn part_two(input: &str) -> Option<u32> {
     jobs.iter_mut()
         .filter(|job| check(job, &rules).is_none())
         .map(|mut job| correct(&mut job, &rules))
-        .sum::<u32>().into()
+        .sum::<u32>()
+        .into()
 }
 
 #[cfg(test)]
