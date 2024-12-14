@@ -1,4 +1,3 @@
-
 pub trait ToDigit {
     fn to_digit(&self) -> Option<u8>;
 }
@@ -57,8 +56,14 @@ macro_rules! parsable_number {
 }
 
 parsable_number!(u8);
+parsable_number!(i8);
 parsable_number!(u16);
+parsable_number!(i16);
 parsable_number!(u32);
+parsable_number!(i32);
 parsable_number!(u64);
+parsable_number!(i64);
 parsable_number!(u128);
+parsable_number!(i128);
 parsable_number!(usize);
+parsable_number!(isize);
