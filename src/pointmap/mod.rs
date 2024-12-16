@@ -91,6 +91,15 @@ impl<T> PointMap<T> {
         }
     }
 
+    pub fn neighbors(&self, point: Point) -> [Option<Point>; 4] {
+        [
+            self.step_north(point),
+            self.step_east(point),
+            self.step_south(point),
+            self.step_west(point),
+        ]
+    }
+
     pub fn step_north(&self, point: Point) -> Option<Point> {
         if point.y == 0 {
             None
