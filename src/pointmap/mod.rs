@@ -74,6 +74,10 @@ impl<T> PointMap<T> {
         &mut self.vec[self.width * point.y + point.x]
     }
 
+    pub fn set(&mut self, point: Point, value: T) {
+        self.vec[self.width * point.y + point.x] = value;
+    }
+
     pub fn is_in_bounds(&mut self, point: Point) -> bool {
         return point.x < self.width && point.y < self.height;
     }

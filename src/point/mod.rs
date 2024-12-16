@@ -1,6 +1,8 @@
 use core::fmt;
 use std::ops::{Add, Sub};
 
+pub mod ipoint;
+
 #[derive(Clone, Copy, PartialEq, Eq, Debug, PartialOrd, Ord, Hash)]
 pub struct Point {
     pub x: usize,
@@ -16,6 +18,13 @@ impl std::fmt::Display for Point {
 impl Point {
     pub fn new(x: usize, y: usize) -> Self {
         Point { x, y }
+    }
+
+    pub fn from_ipoint(ipoint: ipoint::IPoint) -> Self {
+        Point {
+            x: ipoint.x as usize,
+            y: ipoint.y as usize,
+        }
     }
 
     pub fn checked_sub(&self, rhs: Self) -> Option<Self> {
