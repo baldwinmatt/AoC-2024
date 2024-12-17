@@ -1,6 +1,6 @@
 use std::ops::{Index, IndexMut};
 
-use crate::point::Point;
+use crate::point::{Point, ipoint::IPoint};
 
 #[derive(Debug, Clone)]
 pub struct PointMap<T> {
@@ -70,6 +70,14 @@ impl<T> PointMap<T> {
         &self.vec[self.width * point.y + point.x]
     }
 
+    pub fn ati(&self, point: IPoint) -> Option<&T> {
+        if point.in_bounds(self.width, self.height) {
+            Some(self.at(Point::from_ipoint(point)))
+        } else {
+            None
+        }
+    }
+
     pub fn at_mut(&mut self, point: Point) -> &mut T {
         &mut self.vec[self.width * point.y + point.x]
     }
@@ -79,7 +87,11 @@ impl<T> PointMap<T> {
     }
 
     pub fn is_in_bounds(&mut self, point: Point) -> bool {
-        return point.x < self.width && point.y < self.height;
+        point.x < self.width && point.y < self.height
+    }
+
+    pub fn is_in_boundsi(&mut self, point: IPoint) -> bool {
+        point.in_bounds(self.width, self.height)
     }
 
     pub fn step(&self, point: Point, dir: Direction) -> Option<Point> {

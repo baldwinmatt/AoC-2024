@@ -1,5 +1,7 @@
 use std::ops::{Mul, Sub, Add};
 
+use super::Point;
+
 #[derive(Default,Copy,Clone,Debug,PartialEq,Eq,Hash)]
 pub struct IPoint {
 	pub x : i32,
@@ -14,6 +16,13 @@ impl IPoint {
 		}
 	}
 
+    pub fn from_point(point: Point) -> Self {
+        Self {
+            x: point.x as i32,
+            y: point.y as i32,
+        }
+    }
+
 	pub fn manhatten_dist( &self, to : IPoint ) -> i32 {
 		(to.x - self.x).abs() + (to.y - self.y).abs()
 	}
@@ -25,6 +34,10 @@ impl IPoint {
 			y: off.y.signum(),
 		}
 	}
+
+    pub fn in_bounds(&self, width: usize, height: usize) -> bool {
+        self.x >= 0 && self.x < width as i32 && self.y >= 0 && self.y < height as i32
+    }
 }
 
 impl Add<IPoint> for IPoint {
