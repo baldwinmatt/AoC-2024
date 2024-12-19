@@ -52,6 +52,32 @@ impl From<Direction> for usize {
     }
 }
 
+pub struct Points {
+    pub height: usize,
+    pub width: usize,
+    pub x: usize,
+    pub y: usize,
+}
+
+impl Iterator for Points {
+    type Item = Point;
+
+    fn next(&mut self) -> Option<Self::Item> {
+        if self.x >= self.width {
+            self.x = 0;
+            self.y += 1;
+        }
+        if self.y >= self.height {
+            return None;
+        }
+
+        let point = Point::new(self.x, self.y);
+        self.x += 1;
+
+        Some(point)
+    }
+}
+
 impl<T> PointMap<T> {
     pub fn from_vec(vec: Vec<T>, height: usize) -> Self {
         let width = vec.len() / height;
@@ -139,6 +165,15 @@ impl<T> PointMap<T> {
             None
         } else {
             Some(Point::new(point.x - 1, point.y))
+        }
+    }
+
+    pub fn points(&self) -> Points {
+        Points {
+            height: self.height,
+            width: self.width,
+            x: 0,
+            y: 0,
         }
     }
 }

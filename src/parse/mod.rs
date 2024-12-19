@@ -11,14 +11,13 @@ impl ToDigit for u8 {
     }
 }
 
-pub trait Parsable<T>: Iterator {
+pub trait Parseable<T>: Iterator {
     fn next_number(&mut self) -> Option<T>;
-    fn next_number_strict(&mut self) -> (Option<T>, Option<u8>);
 }
 
-macro_rules! parsable_number {
+macro_rules! Parseable_number {
     ($type:ident) => {
-        impl<T: Iterator<Item = u8>> Parsable<$type> for T {
+        impl<T: Iterator<Item = u8>> Parseable<$type> for T {
             fn next_number(&mut self) -> Option<$type> {
                 let mut value: Option<$type> = None;
                 for byte in self {
@@ -35,7 +34,15 @@ macro_rules! parsable_number {
 
                 value
             }
-            fn next_number_strict(&mut self) -> (Option<$type>, Option<u8>) {
+        }
+    };
+}
+
+macro_rules! Parseable_signed_number {
+    ($type:ident) => {
+        impl<T: Iterator<Item = u8>> Parseable<$type> for T {
+            fn next_number(&mut self) -> Option<$type> {
+                let mut negative = false;
                 let mut value: Option<$type> = None;
                 for byte in self {
                     if let Some(digit) = byte.to_digit() {
@@ -44,26 +51,39 @@ macro_rules! parsable_number {
                         } else {
                             value = Some(digit as $type);
                         }
+                    } else if let Some(value) = value {
+                        if negative {
+                            return Some(-value);
+                        }
+                        return Some(value);
+                    } else if byte == b'-' {
+                        negative = true;
                     } else {
-                        return (value, Some(byte));
+                        negative = false;
                     }
                 }
 
-                (value, None)
+                if let Some(value) = value {
+                    if negative {
+                        return Some(-value);
+                    }
+                    return Some(value);
+                }
+                None
             }
         }
     };
 }
 
-parsable_number!(u8);
-parsable_number!(i8);
-parsable_number!(u16);
-parsable_number!(i16);
-parsable_number!(u32);
-parsable_number!(i32);
-parsable_number!(u64);
-parsable_number!(i64);
-parsable_number!(u128);
-parsable_number!(i128);
-parsable_number!(usize);
-parsable_number!(isize);
+Parseable_number!(u8);
+Parseable_signed_number!(i8);
+Parseable_number!(u16);
+Parseable_signed_number!(i16);
+Parseable_number!(u32);
+Parseable_signed_number!(i32);
+Parseable_number!(u64);
+Parseable_signed_number!(i64);
+Parseable_number!(u128);
+Parseable_signed_number!(i128);
+Parseable_number!(usize);
+Parseable_signed_number!(isize);

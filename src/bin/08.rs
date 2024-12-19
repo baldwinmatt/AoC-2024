@@ -44,7 +44,7 @@ fn parse(input: &str) -> (HashMap<u8, Vec<IPoint>>, usize, usize) {
             match c {
                 b'.' => continue,
                 _ =>
-                    map.entry(c).or_default().push(IPoint::new(x as i32, y as i32))
+                    map.entry(c).or_default().push(IPoint::new(x as isize, y as isize))
             }
         }
         y+=1;
@@ -61,7 +61,7 @@ trait BoundedPoint {
 
 impl BoundedPoint for IPoint {
     fn in_bounds(&self, width: usize, height: usize) -> bool {
-        self.x < width as i32 && self.y < height as i32 && self.x >= 0 && self.y >= 0
+        self.x < width as isize && self.y < height as isize && self.x >= 0 && self.y >= 0
     }
 
     fn bounded_add(&self, other: IPoint, width: usize, height: usize) -> Option<IPoint> {

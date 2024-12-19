@@ -1,4 +1,4 @@
-use advent_of_code::parse::Parsable;
+use advent_of_code::parse::Parseable;
 
 advent_of_code::solution!(13);
 

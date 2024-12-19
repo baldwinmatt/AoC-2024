@@ -1,7 +1,10 @@
 use core::fmt;
 use std::ops::{Add, Sub};
 
+use crate::parse::Parseable;
+
 pub mod ipoint;
+pub mod traits;
 
 #[derive(Clone, Copy, PartialEq, Eq, Debug, PartialOrd, Ord, Hash)]
 pub struct Point {
@@ -133,5 +136,14 @@ impl Sub<&Point> for Point {
             x: self.x - rhs.x,
             y: self.y - rhs.y,
         }
+    }
+}
+
+impl<T: Iterator<Item = u8>> Parseable<Point> for T {
+    fn next_number(&mut self) -> Option<Point> {
+        if let Some((x, y)) = self.next_number().zip(self.next_number()) {
+            return Some(Point::new(x, y));
+        }
+        None
     }
 }

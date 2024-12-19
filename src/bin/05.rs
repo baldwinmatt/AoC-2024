@@ -1,4 +1,4 @@
-use advent_of_code::parse::Parsable;
+use advent_of_code::parse::Parseable;
 use std::iter::from_fn;
 
 advent_of_code::solution!(5);
